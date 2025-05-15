@@ -61,6 +61,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
     //     return asset($this->avatar_url);
     // }
 
+    protected static function booted()
+    {
+        parent::booted();
+
+        // Add a delete listener
+        static::deleted(function ($user) {
+            // Check if the user has an associated SocialiteUser and delete it
+            if ($user->socialiteUser) {
+                $user->socialiteUser->delete();
+            }
+        });
+    }
+
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url ? Storage::url($this->avatar_url) : null;
