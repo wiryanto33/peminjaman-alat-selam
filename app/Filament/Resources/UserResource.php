@@ -30,6 +30,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = 'Master Data';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,13 +39,16 @@ class UserResource extends Resource
                 Section::make(
                     'User Information'
                 )->schema([
-                            TextInput::make('name')
-                                ->required(),
-                            TextInput::make('email')
-                                ->required(),
-                            TextInput::make('password')
-                                ->required(),
-                        ]),
+                    TextInput::make('name')
+                        ->required(),
+                    TextInput::make('pangkat'),
+                    TextInput::make('nrp'),
+                    TextInput::make('jabatan'),
+                    TextInput::make('email')
+                        ->required(),
+                    TextInput::make('password')
+                        ->required(),
+                ]),
             ]);
     }
 
@@ -141,6 +146,9 @@ class UserResource extends Resource
             ->schema([
                 InfolistSection::make('User Information')->schema([
                     TextEntry::make('name'),
+                    TextEntry::make('pangkat'),
+                    TextEntry::make('nrp'),
+                    TextEntry::make('jabatan'),
                     TextEntry::make('email'),
                 ]),
             ]);

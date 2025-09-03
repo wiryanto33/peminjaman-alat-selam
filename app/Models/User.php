@@ -28,6 +28,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
      */
     protected $fillable = [
         'name',
+        'pangkat',
+        'nrp',
+        'jabatan',
         'email',
         'password',
         'avatar_url',
@@ -83,4 +86,5 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
     {
         return true;
     }
+
 }

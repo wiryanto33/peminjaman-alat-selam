@@ -3,6 +3,12 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
+use App\Filament\Widgets\AdminBorrowingTrendChart;
+use App\Filament\Widgets\AdminOverviewStats;
+use App\Filament\Widgets\AdminTopEquipmentTable;
+use App\Filament\Widgets\UserBorrowingOverviewStats;
+use App\Filament\Widgets\UserBorrowingTrendChart;
+use App\Livewire\MyPersonalInfo;
 use App\Models\User;
 use App\Settings\KaidoSetting;
 use Filament\Http\Middleware\Authenticate;
@@ -72,6 +78,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -94,7 +101,10 @@ class AdminPanelProvider extends PanelProvider
             ->plugins(
                 $this->getPlugins()
             )
-            ->databaseNotifications();
+            ->databaseNotifications()
+
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('10s');
     }
 
     private function getPlugins(): array
@@ -111,6 +121,9 @@ class AdminPanelProvider extends PanelProvider
                     hasAvatars: true, // Enables the avatar upload form component (default = false)
                     slug: 'my-profile'
                 )
+                ->myProfileComponents([
+                    'personal_info' => MyPersonalInfo::class,
+                ])
                 ->avatarUploadComponent(fn($fileUpload) => $fileUpload->disableLabel())
                 // OR, replace with your own component
                 ->avatarUploadComponent(

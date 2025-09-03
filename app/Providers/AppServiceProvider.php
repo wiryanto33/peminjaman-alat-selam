@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\PeminjamanAlat;
+use App\Models\PengembalianAlat;
 use App\Models\User;
+use App\Observers\PeminjamanAlatObserver;
+use App\Observers\PengembalianAlatObserver;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
@@ -34,5 +38,9 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('discord', \SocialiteProviders\Google\Provider::class);
         });
+
+        // Register PeminjamanAlat Observer
+        PeminjamanAlat::observe(PeminjamanAlatObserver::class);
+        PengembalianAlat::observe(PengembalianAlatObserver::class);
     }
 }
