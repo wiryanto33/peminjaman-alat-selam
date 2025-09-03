@@ -1,8 +1,8 @@
 project_name: alumni
 framework: laravel
 database:
-  name: alumni
-  user: alumni
+  name: dislambair
+  user: dislambair
   password: tamtama33
   host: localhost
   port: 3306
