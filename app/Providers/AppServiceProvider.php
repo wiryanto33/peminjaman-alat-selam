@@ -42,5 +42,10 @@ class AppServiceProvider extends ServiceProvider
         // Register PeminjamanAlat Observer
         PeminjamanAlat::observe(PeminjamanAlatObserver::class);
         PengembalianAlat::observe(PengembalianAlatObserver::class);
+
+        FilamentView::registerRenderHook(
+            'panels::auth.login.form.after',
+            fn(): string => Blade::render('<link rel="stylesheet" href="{{ asset("css/custom-login.css") }}">'),
+        );
     }
 }

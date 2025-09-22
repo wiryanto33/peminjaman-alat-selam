@@ -6,7 +6,6 @@ use App\Filament\Resources\PeminjamanAlatResource;
 use App\Models\PeminjamanAlat;
 use App\Models\Peralatan;
 use App\Models\User;
-use Filament\Actions\Action;
 // ⬇️ pastikan IMPORT yang benar:
 use Filament\Notifications\Notification;
 use Filament\Notifications\Actions\Action as NotificationAction;
@@ -28,7 +27,7 @@ class PeminjamanAlatObserver
                 ->body("{$loan->user?->name} mengajukan peminjaman: {$summary}.")
                 ->icon('heroicon-o-rectangle-stack')
                 ->actions([
-                    Action::make('Lihat')
+                NotificationAction::make('Lihat')
                         ->url(PeminjamanAlatResource::getUrl('edit', ['record' => $loan]))
                         ->button(),
                 ])

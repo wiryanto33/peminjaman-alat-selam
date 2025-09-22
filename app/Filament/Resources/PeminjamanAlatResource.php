@@ -23,7 +23,7 @@ class PeminjamanAlatResource extends \Filament\Resources\Resource
 {
     protected static ?string $model = PeminjamanAlat::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box-arrow-down';
 
     protected static ?string $navigationGroup = 'Aktifitas';
 
@@ -251,5 +251,17 @@ class PeminjamanAlatResource extends \Filament\Resources\Resource
         }
 
         return $query->where('user_id', $user->id);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return \App\Models\PeminjamanAlat::query()
+            ->where('approval', 'pending')
+            ->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning'; // warna kuning
     }
 }

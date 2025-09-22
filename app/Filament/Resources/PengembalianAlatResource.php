@@ -257,4 +257,16 @@ class PengembalianAlatResource extends \Filament\Resources\Resource
 
         return $q->where('user_id', $u->id);
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return \App\Models\PengembalianAlat::query()
+            ->where('approval', 'pending') // ganti dengan field status pengembalianmu
+            ->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning'; // kuning juga biar konsisten
+    }
 }

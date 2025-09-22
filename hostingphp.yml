@@ -11,6 +11,7 @@ database:
 commands:
   - "composer install --no-dev --optimize-autoloader"
   - "npm install"
+  - "npm run build"
   - "php artisan vendor:publish --all"
   - "php artisan key:generate"
   - "php artisan storage:link"

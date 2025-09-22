@@ -6,6 +6,12 @@ use App\Filament\Pages\Login;
 use App\Filament\Widgets\AdminBorrowingTrendChart;
 use App\Filament\Widgets\AdminOverviewStats;
 use App\Filament\Widgets\AdminTopEquipmentTable;
+use App\Filament\Widgets\ApprovalStatusChart;
+use App\Filament\Widgets\DashboardOverview;
+use App\Filament\Widgets\PeminjamanChart;
+use App\Filament\Widgets\PeralatanStockChart;
+use App\Filament\Widgets\RecentActivityWidget;
+use App\Filament\Widgets\SimpleRecentActivityWidget;
 use App\Filament\Widgets\UserBorrowingOverviewStats;
 use App\Filament\Widgets\UserBorrowingTrendChart;
 use App\Livewire\MyPersonalInfo;
@@ -69,6 +75,12 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            //mengganti brand name dengan logo
+            ->brandName('')
+            ->brandLogo(asset('images/koarmada.png'))
+            ->brandLogoHeight('6rem')
+            ->darkModeBrandLogo(asset('images/koarmada.png'))
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -78,6 +90,12 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+
+                DashboardOverview::class,
+                PeminjamanChart::class,
+                ApprovalStatusChart::class,
+                PeralatanStockChart::class,
+                SimpleRecentActivityWidget::class,
 
             ])
             ->middleware([

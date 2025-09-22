@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Filament\Resources\PengembalianAlatResource;
 use App\Models\PengembalianAlat;
 use App\Models\User;
-use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +25,7 @@ class PengembalianAlatObserver
                 ->body("{$ret->user?->name} mengembalikan {$alat} x {$qty}.")
                 ->icon('heroicon-o-arrow-uturn-left')
                 ->actions([
-                    Action::make('Review')
+                NotificationAction::make('Review')
                         ->url(PengembalianAlatResource::getUrl('edit', ['record' => $ret]))
                         ->button(),
                 ])

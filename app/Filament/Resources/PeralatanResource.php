@@ -20,7 +20,7 @@ class PeralatanResource extends Resource
 {
     protected static ?string $model = Peralatan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
     protected static ?string $navigationGroup = 'Master Data';
 
