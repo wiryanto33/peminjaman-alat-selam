@@ -1,4 +1,4 @@
-project_name: alumni
+project_name: dislambair
 framework: laravel
 database:
   name: dislambair
