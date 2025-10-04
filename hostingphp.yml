@@ -10,6 +10,7 @@ database:
   create_user: true
 commands:
   - "composer install --no-dev --optimize-autoloader"
+  - "composer update fakerphp/faker --no-dev -o"
   - "npm install"
   - "npm run build"
   - "php artisan vendor:publish --all"
