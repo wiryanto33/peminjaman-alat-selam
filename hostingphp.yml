@@ -1,0 +1,24 @@
+project_name: dislambair
+framework: laravel
+php_version: 8.4
+database:
+  name: dislambair
+  user: dislambair
+  password: tamtama33
+  host: localhost
+  port: 3306
+  auto_migrate: true
+  create_user: true
+commands:
+  - "composer install --no-dev --optimize-autoloader"
+  - "npm install"
+  - "npm run build"
+  - "php artisan vendor:publish --all"
+  - "php artisan key:generate"
+  - "php artisan storage:link"
+  - "php artisan migrate --seed"
+  - "php artisan shield:generate --all --panel=admin -n"
+  - "php artisan shield:super-admin --user=11 -n"
+  - "php artisan config:cache"
+  - "php artisan route:cache"
+  - "php artisan view:cache"
