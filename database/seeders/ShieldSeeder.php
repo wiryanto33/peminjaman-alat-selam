@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Support\Arr;
 
 class ShieldSeeder extends Seeder
 {
@@ -18,7 +19,50 @@ class ShieldSeeder extends Seeder
         static::makeRolesWithPermissions($rolesWithPermissions);
         static::makeDirectPermissions($directPermissions);
 
+        // Ensure permissions exist for domain resources used in this app
+        $this->ensureDomainResourcePermissions();
+
         $this->command->info('Shield Seeding Completed.');
+    }
+
+    protected function ensureDomainResourcePermissions(): void
+    {
+        /** @var class-string<\Spatie\Permission\Contracts\Role> $roleModel */
+        $roleModel = Utils::getRoleModel();
+        /** @var class-string<\Spatie\Permission\Contracts\Permission> $permissionModel */
+        $permissionModel = Utils::getPermissionModel();
+
+        $entities = [
+            'peralatan',
+            // Keep policy naming compatibility for these resources
+            'peminjaman::alat',
+            'pengembalian::alat',
+        ];
+
+        $prefixes = config('filament-shield.permission_prefixes.resource', [
+            'view', 'view_any', 'create', 'update', 'restore', 'restore_any', 'replicate', 'reorder', 'delete', 'delete_any', 'force_delete', 'force_delete_any',
+        ]);
+
+        $superAdminRole = $roleModel::firstOrCreate([
+            'name' => config('filament-shield.super_admin.name', 'super_admin'),
+            'guard_name' => 'web',
+        ]);
+
+        $toAssign = [];
+        foreach ($entities as $entity) {
+            foreach ($prefixes as $prefix) {
+                $name = $prefix . '_' . $entity;
+                $perm = $permissionModel::firstOrCreate([
+                    'name' => $name,
+                    'guard_name' => 'web',
+                ]);
+                $toAssign[] = $perm;
+            }
+        }
+
+        if (! empty($toAssign)) {
+            $superAdminRole->givePermissionTo($toAssign);
+        }
     }
 
     protected static function makeRolesWithPermissions(string $rolesWithPermissions): void

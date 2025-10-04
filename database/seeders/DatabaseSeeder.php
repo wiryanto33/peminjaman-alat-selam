@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         //call BookSeeder
         $this->call(
             [
+                ShieldSeeder::class,
                 BookSeeder::class,
                 PostSeeder::class,
                 ContactSeeder::class,
