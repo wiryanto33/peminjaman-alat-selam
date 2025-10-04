@@ -5,7 +5,7 @@ database:
   name: dislambair
   user: dislambair
   password: tamtama33
-  host: localhost
+  host: https://dislambair.hostingphp.cloudapp.web.id/
   port: 3306
   auto_migrate: true
   create_user: true
