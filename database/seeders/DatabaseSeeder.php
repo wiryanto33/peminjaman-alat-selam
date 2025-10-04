@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,13 +16,21 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
 
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'admin',
             'pangkat' => 'sertu',
             'nrp' => '123456',
             'jabatan' => 'admin',
             'email' => 'admin@admin.com',
         ]);
+
+        // Ensure super_admin role exists and assign it to the seeded admin
+        $superAdminRole = Role::firstOrCreate([
+            'name' => 'super_admin',
+            'guard_name' => 'web',
+        ]);
+
+        $admin->assignRole($superAdminRole);
 
 
         //call BookSeeder
