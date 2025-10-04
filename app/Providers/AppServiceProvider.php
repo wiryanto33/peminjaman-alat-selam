@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         parent::register();
-        FilamentView::registerRenderHook('panels::body.end', fn(): string => Blade::render("@vite('resources/js/app.js')"));
     }
 
     /**
@@ -42,6 +41,14 @@ class AppServiceProvider extends ServiceProvider
         // Register PeminjamanAlat Observer
         PeminjamanAlat::observe(PeminjamanAlatObserver::class);
         PengembalianAlat::observe(PengembalianAlatObserver::class);
+
+        // Inject Vite app script into Filament only when build assets exist
+        if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot'))) {
+            FilamentView::registerRenderHook(
+                'panels::body.end',
+                fn(): string => Blade::render("@vite('resources/js/app.js')")
+            );
+        }
 
         FilamentView::registerRenderHook(
             'panels::auth.login.form.after',
