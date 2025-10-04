@@ -9,6 +9,7 @@ use App\Observers\PeminjamanAlatObserver;
 use App\Observers\PengembalianAlatObserver;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // Force HTTPS URL generation in production when app URL is HTTPS
+        if (str_starts_with((string) config('app.url'), 'https://')) {
+            URL::forceScheme('https');
+        }
+
         Gate::define('viewApiDocs', function (User $user) {
             return true;
         });

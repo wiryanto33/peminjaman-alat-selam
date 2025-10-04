@@ -33,6 +33,10 @@ class PeralatanResource extends Resource
                     ->maxLength(255),
                 FileUpload::make('image')
                     ->image()
+                    ->disk(config('filament.default_filesystem_disk', 'public'))
+                    ->directory('peralatans')
+                    ->visibility('public')
+                    ->preserveFilenames()
                     ->required(),
                 Forms\Components\TextInput::make('description')
                     ->required()

@@ -12,7 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Trust reverse proxies and forwarded headers (HTTPS behind proxy)
+        $middleware->trustProxies(at: '*');
+
+        // Exclude Livewire upload endpoint from CSRF since it uses signed URLs
+        // and sometimes fails on certain hosting setups due to cookie policies.
+        $middleware->validateCsrfTokens(except: ['livewire/*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
