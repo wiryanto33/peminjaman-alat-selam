@@ -198,9 +198,13 @@ class PeminjamanAlatResource extends \Filament\Resources\Resource
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn($record) => route('peminjaman-alats.invoice', $record))
                     ->openUrlInNewTab()
-                    ->visible(fn($record) => auth()->check() && (
-                        auth()->user()->hasAnyRole(['admin', 'super_admin']) || $record->user_id === auth()->id()
-                    )),
+                    ->visible(fn($record) => $record->approval === 'approved'
+                        && auth()->check()
+                        && (
+                            auth()->user()->hasAnyRole(['admin', 'super_admin'])
+                            || $record->user_id === auth()->id()
+                        )
+                    ),
 
                 Tables\Actions\EditAction::make()
                     ->visible(fn($record) => auth()->check() && (
