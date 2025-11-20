@@ -64,6 +64,8 @@ class AdminPanelProvider extends PanelProvider
 
     public function panel(Panel $panel): Panel
     {
+        $settings = $this->settings;
+
         return $panel
             ->default()
             ->id('admin')
@@ -72,15 +74,23 @@ class AdminPanelProvider extends PanelProvider
             ->when($this->settings->registration_enabled ?? true, fn($panel) => $panel->registration())
             ->when($this->settings->password_reset_enabled ?? true, fn($panel) => $panel->passwordReset())
             ->emailVerification()
+            ->brandLogoHeight('7rem')
+            ->brandName($settings?->site_name ?? config('app.name'))
+            ->brandLogo(function () use ($settings) {
+                if (! request()->routeIs('filament.admin.auth.login', 'filament.admin.auth.register')) {
+                    return null;
+                }
+
+                if (! $settings?->auth_logo_path) {
+                    return null;
+                }
+
+                return asset('storage/' . $settings->auth_logo_path);
+            })
+
             ->colors([
                 'primary' => Color::Amber,
             ])
-            //mengganti brand name dengan logo
-            ->brandName('')
-            ->brandLogo(asset('images/koarmada.png'))
-            ->brandLogoHeight('6rem')
-            ->darkModeBrandLogo(asset('images/koarmada.png'))
-
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

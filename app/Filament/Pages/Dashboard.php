@@ -15,7 +15,7 @@ class Dashboard extends BaseDashboard
     public function getWidgets(): array
     {
         $user = Auth::user();
-        $isAdmin = $user?->hasAnyRole(['super_admin', 'admin']) ?? false;
+        $isAdmin = $user?->hasAnyRole(['super_admin']) ?? false;
 
         $widgets = [
             DashboardOverview::class,
@@ -41,7 +41,7 @@ class Dashboard extends BaseDashboard
     public function getTitle(): string
     {
         $user = Auth::user();
-        $isAdmin = $user?->hasAnyRole(['super_admin', 'admin']) ?? false;
+        $isAdmin = $user?->hasAnyRole(['super_admin']) ?? false;
 
         if ($isAdmin) {
             return 'Dashboard Admin';
